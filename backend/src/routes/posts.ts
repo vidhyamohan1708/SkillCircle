@@ -3,6 +3,7 @@ import { Types } from "mongoose";
 import { z } from "zod";
 import { Post } from "../models/Post";
 import { requireAuth, type AuthenticatedRequest } from "../middleware/auth";
+import { Notification } from "../models/Notification";
 
 const router = Router();
 const postSchema = z.object({ content: z.string().trim().min(1).max(2000), image: z.string().url().optional() });
@@ -41,6 +42,7 @@ router.post("/:id/like", requireAuth, async (request: AuthenticatedRequest, resp
     ? post.likes.filter((like) => like.toString() !== userId)
     : [...post.likes, new Types.ObjectId(userId)];
   await post.save();
+  if (!alreadyLiked && post.author.toString() !== userId) await Notification.create({ recipient: post.author, actor: userId, type: "like", post: post._id });
   response.json({ liked: !alreadyLiked, likeCount: post.likes.length });
 });
 
@@ -56,6 +58,7 @@ router.post("/:id/comments", requireAuth, async (request: AuthenticatedRequest, 
     response.status(404).json({ error: "Post not found" });
     return;
   }
+  if (post.author.toString() !== request.userId) await Notification.create({ recipient: post.author, actor: request.userId, type: "comment", post: post._id });
   response.status(201).json({ comments: post.comments });
 });
 

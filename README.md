@@ -4,7 +4,7 @@ Full-stack foundation for a student network focused on meaningful collaboration.
 
 ## Workspace
 
-- `frontend/` - Next.js, React, TypeScript, Tailwind-ready web app and PWA shell.
+- `frontend/` - Static HTML, CSS, and vanilla JavaScript PWA shell.
 - `backend/` - Separate Express + TypeScript API boundary.
 - `backend/src/models/` - MongoDB/Mongoose user and post models.
 - `backend/src/routes/` - Validated profile and post REST routes.
@@ -13,25 +13,15 @@ Full-stack foundation for a student network focused on meaningful collaboration.
 ## Run locally
 
 ```powershell
-cd frontend
 npm install
 npm run dev
 ```
 
-The landing page runs at `http://localhost:3000`.
-
-```powershell
-cd backend
-npm install
-npm run dev
-```
-
-The API health check runs at `http://localhost:4000/api/health`.
+The app and API run together at `http://localhost:4000`.
 
 ## Environment setup
 
-Copy `frontend/.env.example` to `frontend/.env.local` and `backend/.env.example` to `backend/.env`.
-The frontend Firebase settings are safe client-side settings. For signup, login profile checks, and all protected routes, replace the Firebase Admin values in `backend/.env` with values from Firebase Console > Project settings > Service accounts > Generate new private key. Keep the private key out of source control. The API can start without Admin credentials for health checks, but protected routes return `503` until they are configured.
+Copy `.env.example` to `.env` and fill in the MongoDB, Firebase Admin, Cloudinary, and Groq credentials. The browser-safe Firebase settings are served by the backend config endpoint; no second frontend env file is needed.
 
 ## API slice
 

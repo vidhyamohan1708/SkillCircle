@@ -4,6 +4,7 @@ out/
 dist/
 .env
 .env.local
+frontend/.env.local
 *.pem
 *service-account*.json
 *firebase-admin*.json
