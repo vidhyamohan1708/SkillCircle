@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "npm --prefix backend run dev",
     "dev:api": "npm --prefix backend run dev",
-    "build": "npm --prefix backend run build",
-    "build:api": "npm --prefix backend run build"
+    "build": "npm install --prefix backend --include=dev && npm --prefix backend run build",
+    "build:api": "npm install --prefix backend --include=dev && npm --prefix backend run build"
   }
 }
