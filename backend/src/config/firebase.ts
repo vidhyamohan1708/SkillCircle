@@ -1,9 +1,9 @@
 import { cert, getApps, initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 
 export function getFirebaseAuth() {
-  if (process.env.FIREBASE_SERVICE_ACCOUNT_PATH) {
+  if (process.env.FIREBASE_SERVICE_ACCOUNT_PATH && existsSync(process.env.FIREBASE_SERVICE_ACCOUNT_PATH)) {
     const serviceAccount = JSON.parse(readFileSync(process.env.FIREBASE_SERVICE_ACCOUNT_PATH, "utf8"));
     const app = getApps()[0] || initializeApp({ credential: cert(serviceAccount) });
     return getAuth(app);
